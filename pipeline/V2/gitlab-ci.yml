@@ -1,0 +1,73 @@
+stages:
+  - sonar-analysis
+  - maintenance
+
+sonar-analysis:
+  stage: sonar-analysis
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+    DOTNET_ROOT: "/usr/share/dotnet"
+    DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+    DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+  cache:
+    policy: pull-push
+    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
+    paths:
+      - "${SONAR_USER_HOME}/cache"
+      - "~/.nuget/packages"
+
+  before_script:
+  # Instalar o SonarScanner for .NET
+  - dotnet tool install --global dotnet-sonarscanner
+  - export PATH="$PATH:/root/.dotnet/tools"
+  # Encontrar o arquivo .sln
+  - export SLN_FILE=$(find . -name "*.slnx" | head -n 1)
+  # Restaurar dependências
+  - dotnet restore "$SLN_FILE"
+
+  script:
+    - export SONAR_PROJECT_KEY="${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}"
+    # Iniciar análise do SonarQube
+    - dotnet sonarscanner begin /k:"${SONAR_PROJECT_KEY}" /d:sonar.host.url="${SONAR_HOST_URL}" /d:sonar.token="${SONAR_TOKEN}" /d:sonar.qualitygate.wait=true
+    # Build do projeto
+    - dotnet build "$SLN_FILE" --no-restore --configuration Release
+    # Finalizar análise do SonarQube
+    - dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
+      
+  allow_failure: true
+  rules:
+    # Executar APENAS quando há push/merge na branch main
+    - if: $CI_COMMIT_BRANCH == 'main' && $CI_PIPELINE_SOURCE == 'push'
+
+renovate:
+  stage: maintenance
+  image: renovate/renovate:latest
+  
+  variables:
+    RENOVATE_PLATFORM: "gitlab"
+    RENOVATE_ENDPOINT: "https://git.embrapa.io/api/v4/"
+    RENOVATE_TOKEN: "$RENOVATE_GITLAB_ACCESS_TOKEN"
+    RENOVATE_AUTODISCOVER: "false"
+    RENOVATE_DRY_RUN: "false"
+    LOG_LEVEL: "info"
+    # Configurações via variáveis de ambiente (sobrescreve renovate.json se necessário)
+    RENOVATE_BRANCH_PREFIX: "renovate/"
+    RENOVATE_PR_CONCURRENT_LIMIT: "10"
+    RENOVATE_LABELS: "dependencies,renovate,automated"
+    
+  script:
+    - renovate $CI_PROJECT_PATH
+    
+  allow_failure: true
+  
+  rules:
+    # Executar em schedules (agendamento)
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    # Permitir execução manual (mas NÃO em MRs do Renovate)
+    - if: $CI_PIPELINE_SOURCE == "web" && $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME !~ /^renovate/
+      when: manual
+    # Permitir execução manual sem contexto de MR
+    - if: $CI_PIPELINE_SOURCE == "web" && $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == null
+      when: manual

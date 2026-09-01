@@ -1,0 +1,48 @@
+services:
+  blazorpost:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        - ASPNET_ENV
+        - IO_VERSION
+        - IO_STAGE
+        - GOOGLE_CLIENTID
+        - GOOGLE_CLIENTSECRET
+        - DB_HOST
+        - DB_NAME
+        - DB_USER
+        - DB_PASS
+        - MATOMO_ID
+        - MATOMO_APIURL
+        - LOG_LEVEL
+        - API_GATEWAY_USERNAME
+        - API_GATEWAY_PASSWORD
+        - API_GATEWAY_URL
+        - EMPREGADO_API_BASE_PATH
+        - UNIDADE_API_BASE_PATH
+        - JWTBEARERTOKEN_SECRETKEY
+        - JWTBEARERTOKEN_AUDIENCE
+        - JWTBEARERTOKEN_ISSUER
+        - JWTBEARERTOKEN_EXPIRETIME
+        - BASE_URL
+        - BASE_ROUTE_INTEGRACAO_API
+        - BLAZOR_TRAEFIK_HOST
+        - SENTRY_DSN
+    restart: unless-stopped    
+    networks:
+      - stack
+    environment:
+      ASPNETCORE_ENVIRONMENT: "${ASPNET_ENV}"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${IO_PROJECT}_${IO_APP}.rule=Host(`${BLAZOR_TRAEFIK_HOST}`)"
+      - "traefik.http.routers.${IO_PROJECT}_${IO_APP}.entrypoints=web"
+      - "traefik.http.routers.${IO_PROJECT}_${IO_APP}.tls=false"
+      - "traefik.http.services.${IO_PROJECT}_${IO_APP}.loadbalancer.server.port=80"
+      - "traefik.http.routers.${IO_PROJECT}_${IO_APP}.service=${IO_PROJECT}_${IO_APP}"
+      - "traefik.docker.network=${IO_PROJECT}_${IO_APP}_${IO_STAGE}"
+networks:
+  stack:
+    external: true
+    name: ${IO_PROJECT}_${IO_APP}_${IO_STAGE}

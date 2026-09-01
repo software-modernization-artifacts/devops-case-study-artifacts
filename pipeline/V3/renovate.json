@@ -1,0 +1,78 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "gitlabci": {
+    "enabled": true
+  },
+  "labels": [
+    "dependencies",
+    "renovate",
+    "automated"
+  ],
+  "prConcurrentLimit": 10,
+  "prHourlyLimit": 5,
+  "branchConcurrentLimit": 15,
+  "branchPrefix": "renovate/",
+  "commitMessagePrefix": "renovate(deps): ",
+  "semanticCommits": "enabled",
+  "enabledManagers": [
+    "nuget",
+    "dockerfile"
+  ],
+  "nuget": {
+    "enabled": true
+  },
+  "dockerfile": {
+    "enabled": true
+  },
+  "packageRules": [
+    {
+      "description": "Ignorar major versions para estabilidade",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "enabled": false
+    },
+    {
+      "description": "Priorizar atualizações de segurança",
+      "matchPackageNames": [
+        "*"
+      ],
+      "vulnerabilityAlerts": {
+        "enabled": true
+      },
+      "prPriority": 10
+    },
+    {
+      "description": "Agrupar minor e patch updates para reduzir MRs",
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "groupName": "non-major dependencies",
+      "groupSlug": "non-major"
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true
+  },
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "osvVulnerabilityAlerts": true,
+  "suppressNotifications": [
+    "prIgnoreNotification",
+    "dependencyLookupWarnings",
+    "missingCredentialsError"
+  ],
+  "assignees": [
+    "rpinheiro",
+    "fjlima",
+    "joilton"
+  ],
+  "ignoreDeps": [
+    "Microsoft.NETCore.App"
+  ]
+}

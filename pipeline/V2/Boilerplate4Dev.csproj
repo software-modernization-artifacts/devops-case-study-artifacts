@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Locales\*.json" />
+    <EmbeddedResource Include="Locales\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="CustomLocales\*.json" />
+    <EmbeddedResource Include="CustomLocales\*.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Audit.EntityFramework.Core" Version="32.0.0" />
+    <PackageReference Include="Blazor-ApexCharts" Version="6.1.0" />
+    <PackageReference Include="BootstrapBlazor" Version="10.5.1" />
+    <PackageReference Include="BootstrapBlazor.BootstrapIcon" Version="10.0.0" />
+    <PackageReference Include="BootstrapBlazor.FontAwesome" Version="10.0.1" />
+    <PackageReference Include="BootstrapBlazor.Html2Pdf" Version="10.0.6" />
+    <PackageReference Include="BootstrapBlazor.Middleware" Version="10.0.0" />
+    <PackageReference Include="BootstrapBlazor.TableExport" Version="10.0.2" />
+    <PackageReference Include="Dapper" Version="2.1.72" />
+    <PackageReference Include="EFCore.NamingConventions" Version="10.0.1" />
+    <PackageReference Include="Google.Apis.PeopleService.v1" Version="1.72.0.3973" />
+    <PackageReference Include="Matomo.Blazor" Version="10.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="10.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="10.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="10.0.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="10.0.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.1" />
+    <PackageReference Include="Sentry.AspNetCore" Version="6.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\Pages\Shared\" />
+    <Folder Include="Data\Filters\" />
+  </ItemGroup>
+  
+</Project>

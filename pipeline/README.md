@@ -73,9 +73,9 @@ Os scripts são mantidos diretamente no diretório da respectiva versão, junto 
 
 ## Sanitização dos artefatos
 
-Antes da publicação, os artefatos devem ser sanitizados para remover ou substituir credenciais, tokens, senhas, dados pessoais, nomes de usuários, endereços internos, URLs institucionais não públicas e outras informações sensíveis.
+Antes da publicação, os artefatos foram sanitizados para remover ou substituir credenciais, tokens, senhas, dados pessoais, nomes de usuários, endereços internos, URLs institucionais não públicas e outras informações sensíveis.
 
-A sanitização deve preservar as estruturas necessárias para que as evidências técnicas permaneçam verificáveis.
+A sanitização foi realizada de modo a preservar as estruturas necessárias para que as evidências técnicas permanecessem verificáveis e a análise pudesse ser reproduzida.
 
 ## Notebook de análise
 

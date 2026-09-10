@@ -5,7 +5,7 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0-noble AS build
-#Configurações de variáveis de ambiente no Embrapa.io
+#Configurações de variáveis de ambiente no [REDACTED].io
 ARG ASPNET_ENV
 ARG IO_VERSION
 ARG IO_STAGE

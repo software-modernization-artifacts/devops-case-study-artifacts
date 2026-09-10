@@ -21,7 +21,7 @@ renovate:
   image: renovate/renovate:latest
   variables:
     RENOVATE_PLATFORM: "gitlab"
-    RENOVATE_ENDPOINT: "https://git.embrapa.io/api/v4/"
+    RENOVATE_ENDPOINT: "https://git.[REDACTED].io/api/v4/"
     RENOVATE_TOKEN: "$RENOVATE_GITLAB_ACCESS_TOKEN"
     RENOVATE_AUTODISCOVER: "false"
     RENOVATE_DRY_RUN: "false"
@@ -58,7 +58,7 @@ Configure no GitLab em **Settings > CI/CD > Variables**:
 - **Flags**: ☑️ Protected, ☑️ Masked
 
 ### 2. Personal Access Token
-1. Acesse: `https://git.embrapa.io/-/profile/personal_access_tokens`
+1. Acesse: `https://git.[REDACTED].io/-/profile/personal_access_tokens`
 2. Crie token com:
    - **Nome**: `renovate-automation`
    - **Escopo**: ☑️ `api`

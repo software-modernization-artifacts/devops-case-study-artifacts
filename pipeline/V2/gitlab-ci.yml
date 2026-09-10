@@ -47,7 +47,7 @@ renovate:
   
   variables:
     RENOVATE_PLATFORM: "gitlab"
-    RENOVATE_ENDPOINT: "https://git.embrapa.io/api/v4/"
+    RENOVATE_ENDPOINT: "https://git.[REDACTED].io/api/v4/"
     RENOVATE_TOKEN: "$RENOVATE_GITLAB_ACCESS_TOKEN"
     RENOVATE_AUTODISCOVER: "false"
     RENOVATE_DRY_RUN: "false"
